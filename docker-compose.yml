@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+        db:
+                image: postgres
+                restart: always
+                environment:
+                        POSTGRES_PASSWORD: "123456789"
+                        POSTGRES_DB: "inventory"
+                ports:
+                        - 5432:5432
+                networks:
+                        - inventory
+        
+        back:
+                build: ./back
+                command: npm run dev
+                restart: always
+                ports:
+                        - 3333:3333
+                volumes:
+                        - ./back:/app
+                networks:
+                        - inventory
+
+networks:
+        inventory:
+                driver: bridge
